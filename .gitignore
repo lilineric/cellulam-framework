@@ -242,4 +242,3 @@ buildNumber.properties
 .idea/
 *.iml
 **/*.iml
-src/
