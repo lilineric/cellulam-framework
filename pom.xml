@@ -6,10 +6,11 @@
 
     <groupId>com.cellulam.framework</groupId>
     <artifactId>cellulam-parent</artifactId>
-    <version>${cellulam.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <modules>
         <module>cellulam-uid</module>
         <module>cellulam-core</module>
+        <module>cellulam-spring-boot-project</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -18,7 +19,6 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j.version>2.17.2</log4j.version>
-        <cellulam.version>1.0-SNAPSHOT</cellulam.version>
     </properties>
 
     <dependencies>
@@ -53,4 +53,18 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

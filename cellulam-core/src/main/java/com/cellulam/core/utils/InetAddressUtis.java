@@ -7,8 +7,8 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public abstract class InetAddressUtil {
-    private static final Logger logger = LoggerFactory.getLogger(InetAddressUtil.class);
+public abstract class InetAddressUtis {
+    private static final Logger logger = LoggerFactory.getLogger(InetAddressUtis.class);
 
     public static final String DEFAULT_LOCAL_IP = "127.0.0.1";
     public static final String DEFAULT_LOCAL_HOSTNAME = "local";

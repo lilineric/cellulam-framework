@@ -1,0 +1,2 @@
+org.springframework.context.ApplicationListener=com.cellulam.spring.core.SpringEnvPreparedListener,\
+  com.cellulam.spring.core.SpringContextPreparedListener
