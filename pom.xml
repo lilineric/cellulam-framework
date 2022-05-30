@@ -10,7 +10,6 @@
     <modules>
         <module>cellulam-uid</module>
         <module>cellulam-core</module>
-        <module>cellulam-spring-boot-project</module>
     </modules>
     <packaging>pom</packaging>
 

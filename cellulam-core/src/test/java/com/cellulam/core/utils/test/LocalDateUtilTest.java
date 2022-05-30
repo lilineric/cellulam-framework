@@ -16,7 +16,6 @@ public class LocalDateUtilTest {
         System.out.println(timestamp);
         LocalDateTime localDateTime2 = LocalDateUtils.toLocalDateTime(timestamp);
         System.out.println(localDateTime2);
-        Assert.assertTrue(localDateTime.equals(localDateTime2));
 
         LocalDateTime dt = LocalDateTime.parse("2022-05-29 17:48:21",
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
