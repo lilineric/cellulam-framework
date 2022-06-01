@@ -1,7 +1,9 @@
 package com.cellulam.uid.showflake;
 
 import com.cellulam.core.utils.AssertUtils;
+import lombok.Getter;
 
+@Getter
 public class SnowflakeConfig {
     public static final long DEFAULT_START_TIMESTAMP = 1653749770656L;
     public static final long DEFAULT_SEQUENCE_BIT = 12;   //序列号占用的位数
@@ -9,30 +11,6 @@ public class SnowflakeConfig {
     public static final long DEFAULT_CLOCK_MOVED_BACKWARDS_TIMEOUT = 20;     //默认时间回拨超时时间(毫秒)
 
     private SnowflakeConfig() {
-    }
-
-    public long getStartTimestamp() {
-        return startTimestamp;
-    }
-
-    public long getMaxSequence() {
-        return maxSequence;
-    }
-
-    public long getWorkIdLeft() {
-        return workIdLeft;
-    }
-
-    public long getTimestampLeft() {
-        return timestampLeft;
-    }
-
-    public long getClockBackwardsTimeout() {
-        return clockBackwardsTimeout;
-    }
-
-    public long getWorkId() {
-        return workId;
     }
 
     /**

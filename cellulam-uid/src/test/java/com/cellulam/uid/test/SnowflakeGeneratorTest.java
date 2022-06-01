@@ -25,6 +25,17 @@ public class SnowflakeGeneratorTest {
     }
 
     @Test
+    public void testNextId2() {
+        UidGenerator uidGenerator = new SnowflakeGenerator(SnowflakeConfig.Builder
+                .builder(4324L)
+                .startTimestamp(0)
+                .workIdBit(15)
+                .build());
+        long id = uidGenerator.nextId();
+        System.out.println(id);
+    }
+
+    @Test
     public void performanceTest() {
         int testNum = 100;
 
@@ -43,7 +54,7 @@ public class SnowflakeGeneratorTest {
     }
 
     @Test
-    public void concurrentTest () throws InterruptedException {
+    public void concurrentTest() throws InterruptedException {
         int testNum = 100;
         int threadCount = 10;
 
