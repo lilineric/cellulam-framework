@@ -17,7 +17,7 @@ public class SnowflakeGeneratorTest {
     @Test
     public void testNextId() {
         UidGenerator uidGenerator = new SnowflakeGenerator(SnowflakeConfig.Builder
-                .builder(2, 5)
+                .builder(2)
                 .build());
         long id1 = uidGenerator.nextId();
         long id2 = uidGenerator.nextId();
@@ -31,7 +31,7 @@ public class SnowflakeGeneratorTest {
         Set<Long> ids = Sets.newHashSet();
 
         UidGenerator uidGenerator = new SnowflakeGenerator(SnowflakeConfig.Builder
-                .builder(10, 8)
+                .builder(10)
                 .build());
         long start = System.currentTimeMillis();
         for (int i = 0; i < testNum; i++) {
@@ -54,7 +54,7 @@ public class SnowflakeGeneratorTest {
         ExecutorService pool = Executors.newFixedThreadPool(threadCount);
 
         final UidGenerator uidGenerator = new SnowflakeGenerator(SnowflakeConfig.Builder
-                .builder(10, 8)
+                .builder(10)
                 .build());
         long start = System.currentTimeMillis();
         for (int i = 0; i < testNum; i++) {

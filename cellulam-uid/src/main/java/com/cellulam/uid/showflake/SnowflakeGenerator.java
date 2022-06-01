@@ -5,7 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 参照Snowflake算法实现
+ * Snowflake算法实现实现
+ * 0 + 41bit 时间戳 + 10bit WorkId + 12bit Sequence
  */
 public class SnowflakeGenerator implements UidGenerator {
 
@@ -41,8 +42,7 @@ public class SnowflakeGenerator implements UidGenerator {
         lastTimestamp = currTimeStamp;
 
         long uid = (currTimeStamp - config.getStartTimestamp()) << config.getTimestampLeft() //时间戳部分
-                | config.getDataCenterId() << config.getDataCenterIdLeft()       //数据中心部分
-                | config.getMachineId() << config.getMachineIdLeft()             //机器标识部分
+                | config.getWorkId() << config.getWorkIdLeft()       //机器ID
                 | sequence;                             //序列号部分
         logger.debug("Generate UID: {}", uid);
         return uid;
