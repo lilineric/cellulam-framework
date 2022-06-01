@@ -22,7 +22,8 @@ public class SnowflakeGenerator implements UidGenerator {
     public synchronized long nextId() {
         long currTimeStamp = System.currentTimeMillis();
         if (currTimeStamp < lastTimestamp) {
-            throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
+            //时间回拨
+            handleClockBack();
         }
 
         if (currTimeStamp == lastTimestamp) {
@@ -45,6 +46,20 @@ public class SnowflakeGenerator implements UidGenerator {
                 | sequence;                             //序列号部分
         logger.debug("Generate UID: {}", uid);
         return uid;
+    }
+
+    /**
+     * 处理时钟回拨问题
+     */
+    private void handleClockBack() {
+        long mill = System.currentTimeMillis();
+        while (mill < lastTimestamp) {
+            // 放在while循环中判断，防止进入循环后时钟再次回拨
+            if (lastTimestamp - mill > config.getClockBackwardsTimeout()) {
+                throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
+            }
+            mill = System.currentTimeMillis();
+        }
     }
 
     private long tilNextMillis() {

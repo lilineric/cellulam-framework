@@ -7,6 +7,7 @@ public class SnowflakeConfig {
     public static final long DEFAULT_SEQUENCE_BIT = 12;   //序列号占用的位数
     public static final long DEFAULT_DATA_CENTER_BIT = 5;       //数据中心占用位数
     public static final long DEFAULT_MACHINE_BIT = 5;     //机器标识占用的位数
+    public static final long DEFAULT_CLOCK_MOVED_BACKWARDS_TIMEOUT = 20;     //默认时间回拨超时时间(毫秒)
 
     private SnowflakeConfig() {
     }
@@ -19,28 +20,8 @@ public class SnowflakeConfig {
         return dataCenterId;
     }
 
-    public long getSequenceBit() {
-        return sequenceBit;
-    }
-
-    public long getDataCenterIdBit() {
-        return dataCenterIdBit;
-    }
-
-    public long getMachineIdBit() {
-        return machineIdBit;
-    }
-
     public long getMaxSequence() {
         return maxSequence;
-    }
-
-    public long getMaxDataCenterIdNum() {
-        return maxDataCenterIdNum;
-    }
-
-    public long getMaxMachineIdNum() {
-        return maxMachineIdNum;
     }
 
     public long getMachineIdLeft() {
@@ -55,6 +36,10 @@ public class SnowflakeConfig {
         return timestampLeft;
     }
 
+    public long getClockBackwardsTimeout() {
+        return clockBackwardsTimeout;
+    }
+
     public long getMachineId() {
         return machineId;
     }
@@ -65,19 +50,11 @@ public class SnowflakeConfig {
     private long startTimestamp;
     private long dataCenterId;  //数据中心
 
-    /**
-     * 每一部分占用的位数
-     */
-    private long sequenceBit;   //序列号占用的位数
-    private long dataCenterIdBit;       //数据中心占用位数
-    private long machineIdBit;     //机器标识占用的位数
 
     /**
      * 每一部分的最大值
      */
     private long maxSequence;
-    private long maxDataCenterIdNum;
-    private long maxMachineIdNum;
 
     /**
      * 每一部分向左的位移
@@ -86,7 +63,10 @@ public class SnowflakeConfig {
     private long dataCenterIdLeft;
     private long timestampLeft;
 
-    private long machineId;     //机器标识
+    private long machineId;
+
+    //时钟回拨超时时间（毫秒）
+    private long clockBackwardsTimeout;
 
     public static final class Builder {
         private long machineId;  
@@ -95,6 +75,7 @@ public class SnowflakeConfig {
         private long sequenceBit = DEFAULT_SEQUENCE_BIT;   //序列号占用的位数
         private long dataCenterIdBit = DEFAULT_DATA_CENTER_BIT;       //数据中心占用位数
         private long machineIdBit = DEFAULT_MACHINE_BIT;     //机器标识占用的位数
+        private long clockBackwardsTimeout = DEFAULT_CLOCK_MOVED_BACKWARDS_TIMEOUT;
 
         private Builder(long dataCenterId, long machineId) {
             this.dataCenterId = dataCenterId;
@@ -125,32 +106,37 @@ public class SnowflakeConfig {
             return this;
         }
 
+        public Builder clockBackwardsTimeout(long clockBackwardsTimeout) {
+            this.clockBackwardsTimeout = clockBackwardsTimeout;
+            return this;
+        }
+
         public SnowflakeConfig build() {
             SnowflakeConfig snowflakeConfig = new SnowflakeConfig();
 
             snowflakeConfig.maxSequence = -1L ^ (-1L << this.sequenceBit);
-            snowflakeConfig.maxDataCenterIdNum = -1L ^ (-1L << this.dataCenterIdBit);
-            snowflakeConfig.maxMachineIdNum = -1L ^ (-1L << this.machineIdBit);
+            long maxDataCenterIdNum = -1L ^ (-1L << this.dataCenterIdBit);
+            long maxMachineIdNum = -1L ^ (-1L << this.machineIdBit);
 
-            AssertUtils.isTrue(dataCenterId <= snowflakeConfig.maxDataCenterIdNum && dataCenterId >= 0,
+            AssertUtils.isTrue(dataCenterId <= maxDataCenterIdNum && dataCenterId >= 0,
                     "dataCenterId must less than or equals to "
-                            + snowflakeConfig.maxDataCenterIdNum);
+                            + maxDataCenterIdNum);
 
-            AssertUtils.isTrue(machineId <= snowflakeConfig.maxMachineIdNum && machineId >= 0,
+            AssertUtils.isTrue(machineId <= maxMachineIdNum && machineId >= 0,
                     "MachineId must less than or queals to "
-                            + snowflakeConfig.maxMachineIdNum);
+                            + maxMachineIdNum);
 
             snowflakeConfig.startTimestamp = this.startTimestamp;
-            snowflakeConfig.dataCenterIdBit = this.dataCenterIdBit;
-            snowflakeConfig.sequenceBit = this.sequenceBit;
-            snowflakeConfig.machineIdBit = this.machineIdBit;
             snowflakeConfig.dataCenterId = this.dataCenterId;
+            snowflakeConfig.machineId = machineId;
             /**
              * 每一部分向左的位移
              */
             snowflakeConfig.machineIdLeft = sequenceBit;
             snowflakeConfig.dataCenterIdLeft = sequenceBit + machineIdBit;
             snowflakeConfig.timestampLeft = snowflakeConfig.dataCenterIdLeft + dataCenterIdBit;
+
+            snowflakeConfig.clockBackwardsTimeout = clockBackwardsTimeout;
 
             return snowflakeConfig;
         }
