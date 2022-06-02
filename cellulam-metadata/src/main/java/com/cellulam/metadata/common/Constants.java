@@ -10,4 +10,7 @@ public class Constants {
     public static final String SERVER_PORT = CELLULAM_META_PREFIX + "port";
     public static final String DATASOURCE_TYPE = CELLULAM_META_PREFIX + "data-source-type";
     public static final String AUTO_INIT = CELLULAM_META_PREFIX + "auto-init";
+    public static final String HEARTBEAT_SECOND = CELLULAM_META_PREFIX + "heartbeat";
+
+    public static final int DEFAULT_HEARTBEAT_SECOND = 30 * 60; //30min
 }

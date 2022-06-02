@@ -29,7 +29,13 @@ public class MetadataContext {
 
     private String port;
 
-    private long workId;
+    private long nodeId;
+
+    private String instanceId;
+
+    private int workerId;
+
+    private LocalDateTime lastHeartbeat;
 
     private Map<String, Object> ext;
 

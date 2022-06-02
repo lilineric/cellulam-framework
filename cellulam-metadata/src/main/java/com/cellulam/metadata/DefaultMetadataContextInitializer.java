@@ -14,9 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class DefaultMetadataContextInitializer implements MetadataContextInitializer {
     private Logger logger = LoggerFactory.getLogger(DefaultMetadataContextInitializer.class);
+
+    private static ScheduledExecutorService executorService;
 
     private WorkerIdAssigner workerIdAssigner;
 
@@ -49,7 +54,7 @@ public class DefaultMetadataContextInitializer implements MetadataContextInitial
                 .mapperPackage("com.cellulam.metadata.dal.dao.mappers")
                 .build());
 
-        if (properties.getAutoInit()) {
+        if (properties.isAutoInit()) {
             this.initialize();
         }
     }
@@ -64,11 +69,34 @@ public class DefaultMetadataContextInitializer implements MetadataContextInitial
             MetadataContext.context.setAppName(properties.getAppName());
             MetadataContext.context.setIp(IpUtils.getIp());
             MetadataContext.context.setPort(properties.getPort());
-            MetadataContext.context.setWorkId(this.workerIdAssigner.assign());
+            this.workerIdAssigner.assign();
+
             MetadataContext.context.setDynamicMetadataExplorer(dynamicMetadataExplorer);
+
+            this.startScheduleTasks();
+
             logger.info("MetadataContext Initialized: {}", MetadataContext.context.toString());
         } catch (Exception e) {
             throw new MetadataException("MetadataContext initialize failed.", e);
+        }
+    }
+
+    private void startScheduleTasks() {
+        if (this.properties.getHeartbeatSecond() > 0) {
+            executorService = Executors.newScheduledThreadPool(1);
+            executorService.scheduleAtFixedRate(() -> this.heartbeat(),
+                    this.properties.getHeartbeatSecond(),
+                    this.properties.getHeartbeatSecond(),
+                    TimeUnit.SECONDS);
+        }
+    }
+
+    private void heartbeat() {
+        try {
+            this.workerIdAssigner.heartbeat();
+            logger.info("[{}] HEARTBEAT", MetadataContext.context);
+        } catch (Exception e) {
+            logger.error("Heartbeat error", e);
         }
     }
 }

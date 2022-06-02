@@ -8,9 +8,14 @@ import java.time.LocalDateTime;
 public class WorkerNodeDo {
     private Long id;
     private String appName;
+    private Integer workerId;
     private String ip;
     private String port;
-    private LocalDateTime launchDate;
+    private LocalDateTime heartbeat;
     private LocalDateTime modified;
     private LocalDateTime created;
+
+    public String getInstanceId() {
+        return appName + "-" + workerId;
+    }
 }

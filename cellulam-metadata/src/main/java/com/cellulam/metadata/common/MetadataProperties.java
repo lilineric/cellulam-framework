@@ -14,9 +14,12 @@ public class MetadataProperties {
     private String appName;
     private String port;
     private DataSourceType dataSourceType;
-    private Boolean autoInit;
+    private boolean autoInit;
+    private int heartbeatSecond;
 
     public static final MetadataProperties loadFromProperties(Properties properties) {
+        String heartbeatSecond = properties.getProperty(Constants.HEARTBEAT_SECOND);
+        int heartbeat = StringUtils.isEmpty(heartbeatSecond) ? Constants.DEFAULT_HEARTBEAT_SECOND : Integer.parseInt(heartbeatSecond);
         return MetadataPropertiesBuilder
                 .builder()
                 .appName(properties.getProperty(Constants.APP_NAME))
@@ -26,6 +29,7 @@ public class MetadataProperties {
                 .jdbcPassword(properties.getProperty(Constants.JDBC_PASSWORD))
                 .dataSourceType(properties.getProperty(Constants.DATASOURCE_TYPE))
                 .autoInit(Boolean.parseBoolean(properties.getProperty(Constants.AUTO_INIT, Boolean.TRUE.toString())))
+                .heartbeatSecond(heartbeat)
                 .build();
     }
 
@@ -37,6 +41,7 @@ public class MetadataProperties {
         private String port;
         private DataSourceType dataSourceType;
         private boolean autoInit = true;
+        private int heartbeatSecond = Constants.DEFAULT_HEARTBEAT_SECOND;
 
         private MetadataPropertiesBuilder() {
         }
@@ -82,6 +87,11 @@ public class MetadataProperties {
             return this;
         }
 
+        public MetadataPropertiesBuilder heartbeatSecond(int heartbeatSecond) {
+            this.heartbeatSecond = heartbeatSecond;
+            return this;
+        }
+
         public MetadataProperties build() {
             MetadataProperties metadataProperties = new MetadataProperties();
             metadataProperties.jdbcUsername = this.jdbcUsername;
@@ -91,6 +101,7 @@ public class MetadataProperties {
             metadataProperties.port = this.port;
             metadataProperties.dataSourceType = this.dataSourceType;
             metadataProperties.autoInit = this.autoInit;
+            metadataProperties.heartbeatSecond = this.heartbeatSecond;
             return metadataProperties;
         }
     }

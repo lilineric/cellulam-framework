@@ -12,13 +12,14 @@ import java.util.Properties;
 public class MetadataContextTest {
 
     @Test
-    public void testMetaContext() {
+    public void testMetaContext() throws InterruptedException {
         Properties properties = new Properties();
         properties.setProperty(Constants.APP_NAME, "metadata-test");
         properties.setProperty(Constants.SERVER_PORT, "3412");
         properties.setProperty(Constants.JDBC_URL, "jdbc:mysql://localhost:3306/db_meta?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8");
         properties.setProperty(Constants.JDBC_USERNAME, "root");
         properties.setProperty(Constants.JDBC_PASSWORD, "root123");
+        properties.setProperty(Constants.HEARTBEAT_SECOND, "1");
 
         MetadataContextInitializer metaContextInitializer = new DefaultMetadataContextInitializer(
                 properties,
@@ -29,11 +30,12 @@ public class MetadataContextTest {
         System.out.println(MetadataContext.context.toString());
         System.out.println(MetadataContext.context.getSysTime());
         System.out.println(MetadataContext.context.getSysTimestamp());
+        Thread.sleep(3000);
     }
 
 
     @Test
-    public void testMetaContextFromResource() {
+    public void testMetaContextFromResource() throws InterruptedException {
         MetadataContextInitializer metaContextInitializer = new DefaultMetadataContextInitializer(
                 new DbWorkerIdAssigner()
         );
@@ -42,6 +44,7 @@ public class MetadataContextTest {
         System.out.println(MetadataContext.context.toString());
         System.out.println(MetadataContext.context.getSysTime());
         System.out.println(MetadataContext.context.getSysTimestamp());
+        Thread.sleep(3000);
     }
 
     @Test
