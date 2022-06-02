@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class SnowflakeConfig {
-    public static final long DEFAULT_START_TIMESTAMP = 1653749770656L;
+    public static final long DEFAULT_EPOCH = 1653749770656L;
     public static final long DEFAULT_SEQUENCE_BIT = 12;   //序列号占用的位数
     public static final long DEFAULT_WORK_ID_BIT = 10;     //工作机器ID占用位数
     public static final long DEFAULT_CLOCK_MOVED_BACKWARDS_TIMEOUT = 20;     //默认时间回拨超时时间(毫秒)
@@ -16,7 +16,7 @@ public class SnowflakeConfig {
     /**
      * 起始的时间戳
      */
-    private long startTimestamp;
+    private long epoch;
 
 
     /**
@@ -38,7 +38,7 @@ public class SnowflakeConfig {
 
     public static final class Builder {
         private long workId;
-        private long startTimestamp = DEFAULT_START_TIMESTAMP;
+        private long epoch = DEFAULT_EPOCH;
         private long sequenceBit = DEFAULT_SEQUENCE_BIT;   //序列号占用的位数
         private long workIdBit = DEFAULT_WORK_ID_BIT;
         private long clockBackwardsTimeout = DEFAULT_CLOCK_MOVED_BACKWARDS_TIMEOUT;
@@ -51,8 +51,8 @@ public class SnowflakeConfig {
             return new Builder(workId);
         }
 
-        public Builder startTimestamp(long startTimestamp) {
-            this.startTimestamp = startTimestamp;
+        public Builder epoch(long epoch) {
+            this.epoch = epoch;
             return this;
         }
 
@@ -81,7 +81,7 @@ public class SnowflakeConfig {
                     "workId must less than or equals to "
                             + maxWorkIdNum);
 
-            snowflakeConfig.startTimestamp = this.startTimestamp;
+            snowflakeConfig.epoch = this.epoch;
             snowflakeConfig.workId = workId;
             /**
              * 每一部分向左的位移

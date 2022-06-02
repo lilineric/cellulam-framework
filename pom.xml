@@ -10,6 +10,8 @@
     <modules>
         <module>cellulam-uid</module>
         <module>cellulam-core</module>
+        <module>cellulam-metadata</module>
+        <module>cellulam-db</module>
     </modules>
     <packaging>pom</packaging>
 

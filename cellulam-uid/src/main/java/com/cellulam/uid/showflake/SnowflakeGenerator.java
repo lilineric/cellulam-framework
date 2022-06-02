@@ -1,6 +1,7 @@
 package com.cellulam.uid.showflake;
 
 import com.cellulam.uid.UidGenerator;
+import com.cellulam.uid.exceptions.UidGenerateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +42,7 @@ public class SnowflakeGenerator implements UidGenerator {
 
         lastTimestamp = currTimeStamp;
 
-        long uid = (currTimeStamp - config.getStartTimestamp()) << config.getTimestampLeft() //时间戳部分
+        long uid = (currTimeStamp - config.getEpoch()) << config.getTimestampLeft() //时间戳部分
                 | config.getWorkId() << config.getWorkIdLeft()       //机器ID
                 | sequence;                             //序列号部分
         logger.debug("Generate UID: {}", uid);
@@ -56,7 +57,7 @@ public class SnowflakeGenerator implements UidGenerator {
         while (mill < lastTimestamp) {
             // 放在while循环中判断，防止进入循环后时钟再次回拨
             if (lastTimestamp - mill > config.getClockBackwardsTimeout()) {
-                throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
+                throw new UidGenerateException("Clock moved backwards.  Refusing to generate id");
             }
             mill = System.currentTimeMillis();
         }

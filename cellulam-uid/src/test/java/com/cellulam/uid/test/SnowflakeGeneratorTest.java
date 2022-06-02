@@ -28,7 +28,7 @@ public class SnowflakeGeneratorTest {
     public void testNextId2() {
         UidGenerator uidGenerator = new SnowflakeGenerator(SnowflakeConfig.Builder
                 .builder(4324L)
-                .startTimestamp(0)
+                .epoch(0)
                 .workIdBit(15)
                 .build());
         long id = uidGenerator.nextId();
