@@ -48,6 +48,10 @@ public class DefaultMetadataContextInitializer implements MetadataContextInitial
                 .jdbcPassword(properties.getJdbcPassword())
                 .mapperPackage("com.cellulam.metadata.dal.dao.mappers")
                 .build());
+
+        if (properties.getAutoInit()) {
+            this.initialize();
+        }
     }
 
     public void setDynamicMetadataExplorer(DynamicMetadataExplorer dynamicMetadataExplorer) {

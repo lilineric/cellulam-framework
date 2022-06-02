@@ -9,4 +9,5 @@ public class Constants {
     public static final String APP_NAME = CELLULAM_META_PREFIX + "app-name";
     public static final String SERVER_PORT = CELLULAM_META_PREFIX + "port";
     public static final String DATASOURCE_TYPE = CELLULAM_META_PREFIX + "data-source-type";
+    public static final String AUTO_INIT = CELLULAM_META_PREFIX + "auto-init";
 }

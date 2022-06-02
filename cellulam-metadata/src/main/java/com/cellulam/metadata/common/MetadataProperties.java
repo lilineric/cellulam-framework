@@ -14,6 +14,7 @@ public class MetadataProperties {
     private String appName;
     private String port;
     private DataSourceType dataSourceType;
+    private Boolean autoInit;
 
     public static final MetadataProperties loadFromProperties(Properties properties) {
         return MetadataPropertiesBuilder
@@ -24,6 +25,7 @@ public class MetadataProperties {
                 .jdbcUsername(properties.getProperty(Constants.JDBC_USERNAME))
                 .jdbcPassword(properties.getProperty(Constants.JDBC_PASSWORD))
                 .dataSourceType(properties.getProperty(Constants.DATASOURCE_TYPE))
+                .autoInit(Boolean.parseBoolean(properties.getProperty(Constants.AUTO_INIT, Boolean.TRUE.toString())))
                 .build();
     }
 
@@ -34,6 +36,7 @@ public class MetadataProperties {
         private String appName;
         private String port;
         private DataSourceType dataSourceType;
+        private boolean autoInit = true;
 
         private MetadataPropertiesBuilder() {
         }
@@ -74,6 +77,11 @@ public class MetadataProperties {
             return this;
         }
 
+        public MetadataPropertiesBuilder autoInit(boolean autoInit) {
+            this.autoInit = autoInit;
+            return this;
+        }
+
         public MetadataProperties build() {
             MetadataProperties metadataProperties = new MetadataProperties();
             metadataProperties.jdbcUsername = this.jdbcUsername;
@@ -82,6 +90,7 @@ public class MetadataProperties {
             metadataProperties.jdbcPassword = this.jdbcPassword;
             metadataProperties.port = this.port;
             metadataProperties.dataSourceType = this.dataSourceType;
+            metadataProperties.autoInit = this.autoInit;
             return metadataProperties;
         }
     }

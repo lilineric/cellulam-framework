@@ -25,7 +25,7 @@ public class MetadataContextTest {
                 new DbWorkerIdAssigner()
         );
 
-        metaContextInitializer.initialize();
+//        metaContextInitializer.initialize();
         System.out.println(MetadataContext.context.toString());
         System.out.println(MetadataContext.context.getSysTime());
         System.out.println(MetadataContext.context.getSysTimestamp());
@@ -38,7 +38,7 @@ public class MetadataContextTest {
                 new DbWorkerIdAssigner()
         );
 
-        metaContextInitializer.initialize();
+//        metaContextInitializer.initialize();
         System.out.println(MetadataContext.context.toString());
         System.out.println(MetadataContext.context.getSysTime());
         System.out.println(MetadataContext.context.getSysTimestamp());
