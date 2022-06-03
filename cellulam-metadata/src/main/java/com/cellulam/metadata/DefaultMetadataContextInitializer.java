@@ -9,6 +9,7 @@ import com.cellulam.metadata.common.MetadataProperties;
 import com.cellulam.metadata.dynamic.DbDynamicMetadataExplorer;
 import com.cellulam.metadata.dynamic.DynamicMetadataExplorer;
 import com.cellulam.metadata.exceptions.MetadataException;
+import com.cellulam.metadata.worker.DbWorkerIdAssigner;
 import com.cellulam.metadata.worker.WorkerIdAssigner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,10 @@ public class DefaultMetadataContextInitializer implements MetadataContextInitial
 
     public DefaultMetadataContextInitializer(String propertiesResourceName, WorkerIdAssigner workerIdAssigner) {
         this(PropertiesFactory.getProperties(propertiesResourceName), workerIdAssigner);
+    }
+
+    public DefaultMetadataContextInitializer() {
+        this(new DbWorkerIdAssigner());
     }
 
     public DefaultMetadataContextInitializer(WorkerIdAssigner workerIdAssigner) {

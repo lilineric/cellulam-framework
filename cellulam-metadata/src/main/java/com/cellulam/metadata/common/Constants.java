@@ -13,4 +13,5 @@ public class Constants {
     public static final String HEARTBEAT_SECOND = CELLULAM_META_PREFIX + "heartbeat";
 
     public static final int DEFAULT_HEARTBEAT_SECOND = 30 * 60; //30min
+    public static final int TIME_ERROR_RANGE = 1000; //allow time error range
 }

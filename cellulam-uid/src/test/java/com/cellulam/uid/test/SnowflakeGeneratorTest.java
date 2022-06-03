@@ -1,8 +1,8 @@
 package com.cellulam.uid.test;
 
 import com.cellulam.uid.UidGenerator;
-import com.cellulam.uid.showflake.SnowflakeConfig;
-import com.cellulam.uid.showflake.SnowflakeGenerator;
+import com.cellulam.uid.snowflake.SnowflakeConfig;
+import com.cellulam.uid.snowflake.SnowflakeGenerator;
 import com.google.common.collect.Sets;
 import org.junit.Assert;
 import org.junit.Test;

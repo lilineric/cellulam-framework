@@ -168,4 +168,26 @@ public abstract class LocalDateUtils {
         Instant instant = Instant.ofEpochMilli(timestamp);
         return LocalDateTime.ofInstant(instant, zoneId);
     }
+
+    /**
+     * diff
+     *
+     * @param dt1
+     * @param dt2
+     * @return
+     */
+    public static long diff(ChronoLocalDateTime dt1, ChronoLocalDateTime dt2) {
+        return diff(dt1, toTimestamp(dt2));
+    }
+
+    /**
+     * diff
+     *
+     * @param dt
+     * @param timestamp
+     * @return
+     */
+    public static long diff(ChronoLocalDateTime dt, long timestamp) {
+        return Math.abs(toTimestamp(dt) - timestamp);
+    }
 }

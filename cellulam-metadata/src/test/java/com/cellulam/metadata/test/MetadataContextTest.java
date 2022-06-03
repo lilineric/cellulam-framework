@@ -30,7 +30,6 @@ public class MetadataContextTest {
         System.out.println(MetadataContext.context.toString());
         System.out.println(MetadataContext.context.getSysTime());
         System.out.println(MetadataContext.context.getSysTimestamp());
-        Thread.sleep(3000);
     }
 
 
@@ -44,7 +43,6 @@ public class MetadataContextTest {
         System.out.println(MetadataContext.context.toString());
         System.out.println(MetadataContext.context.getSysTime());
         System.out.println(MetadataContext.context.getSysTimestamp());
-        Thread.sleep(3000);
     }
 
     @Test

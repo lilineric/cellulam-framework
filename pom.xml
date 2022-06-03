@@ -12,6 +12,7 @@
         <module>cellulam-core</module>
         <module>cellulam-metadata</module>
         <module>cellulam-db</module>
+        <module>cellulam-uid-metadata</module>
     </modules>
     <packaging>pom</packaging>
 

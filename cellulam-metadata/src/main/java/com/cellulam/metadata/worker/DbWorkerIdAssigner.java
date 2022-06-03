@@ -3,6 +3,7 @@ package com.cellulam.metadata.worker;
 import com.cellulam.core.utils.AssertUtils;
 import com.cellulam.core.utils.LocalDateUtils;
 import com.cellulam.metadata.MetadataContext;
+import com.cellulam.metadata.common.Constants;
 import com.cellulam.metadata.dal.dao.WorkerNodeDao;
 import com.cellulam.metadata.dal.dao.impl.WorkerNodeDaoImpl;
 import com.cellulam.metadata.dal.po.WorkerNodeDo;
@@ -29,6 +30,11 @@ public class DbWorkerIdAssigner implements WorkerIdAssigner {
 
     private void refreshMetadataContext(long nodeId) {
         WorkerNodeDo workerNode = workerNodeDao.getWorkerNode(nodeId);
+
+        if (LocalDateUtils.diff(workerNode.getHeartbeat(), System.currentTimeMillis()) > Constants.TIME_ERROR_RANGE) {
+            log.error("clock moved backwards. Last heartbeat time: {}, MetadataContext: {}",
+                    workerNode.getHeartbeat(), MetadataContext.context);
+        }
 
         MetadataContext.context.setWorkerId(workerNode.getWorkerId());
         MetadataContext.context.setLastHeartbeat(workerNode.getHeartbeat());

@@ -13,6 +13,7 @@ public interface WorkerNodeMapper {
 
     @Select(value = "select id, app_name, worker_id, ip, port, heartbeat, modified, created from t_worker_node where id = #{id}")
     @Result(column = "worker_id", property = "workerId")
+    @Result(column = "app_name", property = "appName")
     WorkerNodeDo getWorkNodeById(long id);
 
 
