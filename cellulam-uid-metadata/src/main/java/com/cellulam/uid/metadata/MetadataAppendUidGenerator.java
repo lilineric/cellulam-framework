@@ -115,7 +115,9 @@ public class MetadataAppendUidGenerator extends SnowflakeGenerator implements Ui
      */
     @Override
     public long nextId(long pid) {
-        long id = this.nextId();
+        // cannot use this.nextId().
+        // For performance reason this.nextId() will call MetadataUidGenerator.nextId(), it will return 64bits UID.
+        long id = super.nextId();
         return id * this.scaleRate + (pid % scaleRate);
     }
 }
