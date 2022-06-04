@@ -13,6 +13,7 @@
         <module>cellulam-metadata</module>
         <module>cellulam-db</module>
         <module>cellulam-uid-metadata</module>
+        <module>cellulam-script</module>
     </modules>
     <packaging>pom</packaging>
 
