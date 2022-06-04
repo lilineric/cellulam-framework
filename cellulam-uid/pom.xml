@@ -16,7 +16,6 @@
         <dependency>
             <groupId>com.cellulam.framework</groupId>
             <artifactId>cellulam-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

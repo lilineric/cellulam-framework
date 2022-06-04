@@ -22,6 +22,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j.version>2.17.2</log4j.version>
+        <cellulam.framework.version>1.0-SNAPSHOT</cellulam.framework.version>
     </properties>
 
     <dependencies>
@@ -57,15 +58,64 @@
 
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.cellulam.framework</groupId>
+                <artifactId>cellulam-core</artifactId>
+                <version>${cellulam.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cellulam.framework</groupId>
+                <artifactId>cellulam-db</artifactId>
+                <version>${cellulam.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cellulam.framework</groupId>
+                <artifactId>cellulam-metadata</artifactId>
+                <version>${cellulam.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cellulam.framework</groupId>
+                <artifactId>cellulam-script</artifactId>
+                <version>${cellulam.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cellulam.framework</groupId>
+                <artifactId>cellulam-uid</artifactId>
+                <version>${cellulam.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cellulam.framework</groupId>
+                <artifactId>cellulam-uid-metadata</artifactId>
+                <version>${cellulam.framework.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
