@@ -16,12 +16,12 @@ import java.util.Map;
 public final class RuntimeContext {
     private static final ThreadLocal<Map<String, Object>> context = new ThreadLocal<>();
 
-    public static Map<String, Object> initContext() {
-        return initContext(UUIDUtils.randomUUID32());
+    public static Map<String, Object> init() {
+        return init(UUIDUtils.randomUUID32());
     }
 
 
-    public static Map<String, Object> initContext(String traceId) {
+    public static Map<String, Object> init(String traceId) {
         Map<String, Object> data = Maps.newConcurrentMap();
         context.set(data);
         setTraceId(traceId);
@@ -29,11 +29,11 @@ public final class RuntimeContext {
         return data;
     }
 
-    public static Object getValue(String key) {
+    public static Object get(String key) {
         return getContextData().get(key);
     }
 
-    public static void setValue(String key, Object value) {
+    public static void put(String key, Object value) {
         getContextData().put(key, value);
     }
 
@@ -52,23 +52,23 @@ public final class RuntimeContext {
     }
 
     public static void setTraceId(String traceId) {
-        setValue(Keys.TRACE_ID, traceId);
+        put(Keys.TRACE_ID, traceId);
         MDC.put(Keys.TRACE_ID, traceId);
     }
 
     public static Map<String, Object> getContextData() {
         Map<String, Object> data = context.get();
         if (data == null) {
-            data = initContext();
+            data = init();
         }
         return data;
     }
 
-    public static void initContext(Map<String, Object> contextData) {
+    public static void init(Map<String, Object> contextData) {
         if (contextData != null && contextData.containsKey(Keys.TRACE_ID)) {
-            initContext(contextData.get(Keys.TRACE_ID).toString());
+            init(contextData.get(Keys.TRACE_ID).toString());
         } else {
-            initContext();
+            init();
         }
 
         if (!MapUtils.isEmpty(contextData)) {
@@ -77,7 +77,7 @@ public final class RuntimeContext {
                 if (Keys.TRACE_ID.equals(key)) {
                     setTraceId(value.toString());
                 } else {
-                    setValue(key, value);
+                    put(key, value);
                 }
             }
         }
