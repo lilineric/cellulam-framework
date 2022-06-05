@@ -1,12 +1,15 @@
 package com.cellulam.core.context;
 
+import com.alibaba.ttl.TransmittableThreadLocal;
 import com.cellulam.core.utils.JacksonUtils;
+import com.cellulam.core.utils.MapCopyUtils;
 import com.cellulam.core.utils.UUIDUtils;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.MDC;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,15 +17,15 @@ import java.util.Map;
  */
 @Slf4j
 public final class RuntimeContext {
-    private static final ThreadLocal<Map<String, Object>> context = new ThreadLocal<>();
+    private static final TransmittableThreadLocal<HashMap<String, Object>> context = new TransmittableThreadLocal<>();
 
-    public static Map<String, Object> init() {
+    public static HashMap<String, Object> init() {
         return init(UUIDUtils.randomUUID32());
     }
 
 
-    public static Map<String, Object> init(String traceId) {
-        Map<String, Object> data = Maps.newConcurrentMap();
+    public static HashMap<String, Object> init(String traceId) {
+        HashMap<String, Object> data = Maps.newHashMap();
         context.set(data);
         setTraceId(traceId);
         log.info("init runtime context");
@@ -30,15 +33,22 @@ public final class RuntimeContext {
     }
 
     public static Object get(String key) {
-        return getContextData().get(key);
+        HashMap<String, Object> context = getData();
+        return context == null ? null : context.get(key);
     }
 
     public static void put(String key, Object value) {
-        getContextData().put(key, value);
+        HashMap<String, Object> data = getData(true);
+        data.put(key, value);
+        context.set(data);
     }
 
     public static void remove(String key) {
-        getContextData().remove(key);
+        HashMap<String, Object> data = getData();
+        if (data != null) {
+            data.remove(key);
+        }
+        context.set(data);
     }
 
     public static void clear() {
@@ -48,7 +58,9 @@ public final class RuntimeContext {
     }
 
     public static String getDigest() {
-        return JacksonUtils.toJson(getContextData());
+        Map<String, Object> values = getData();
+        return "[" + Thread.currentThread().getName() + "]" + " "
+                + (values == null ? null : JacksonUtils.toJson(values));
     }
 
     public static void setTraceId(String traceId) {
@@ -56,15 +68,19 @@ public final class RuntimeContext {
         MDC.put(Keys.TRACE_ID, traceId);
     }
 
-    public static Map<String, Object> getContextData() {
-        Map<String, Object> data = context.get();
-        if (data == null) {
+    public static HashMap<String, Object> getData(boolean autoInit) {
+        HashMap<String, Object> data = MapCopyUtils.deepCopy(context.get());
+        if (data == null && autoInit) {
             data = init();
         }
         return data;
     }
 
-    public static void init(Map<String, Object> contextData) {
+    public static HashMap<String, Object> getData() {
+        return getData(false);
+    }
+
+    public static void init(HashMap<String, Object> contextData) {
         if (contextData != null && contextData.containsKey(Keys.TRACE_ID)) {
             init(contextData.get(Keys.TRACE_ID).toString());
         } else {
@@ -72,14 +88,7 @@ public final class RuntimeContext {
         }
 
         if (!MapUtils.isEmpty(contextData)) {
-            for (String key : contextData.keySet()) {
-                Object value = contextData.get(key);
-                if (Keys.TRACE_ID.equals(key)) {
-                    setTraceId(value.toString());
-                } else {
-                    put(key, value);
-                }
-            }
+            context.set(MapCopyUtils.deepCopy(contextData));
         }
     }
 
