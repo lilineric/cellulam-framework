@@ -1,11 +1,14 @@
 package com.cellulam.core.executor.delay;
 
-import com.cellulam.core.executor.Executor;
+import com.cellulam.core.concurrent.TtlExecutors;
 import com.cellulam.core.utils.LocalDateUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.*;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Memory-based delay queue
@@ -20,7 +23,7 @@ public class MemoryQueueDelayExecutor implements DelayExecutor {
      * New CachedThreadPool to execute delay tasks
      */
     public MemoryQueueDelayExecutor() {
-        this(Executors.newCachedThreadPool());
+        this(TtlExecutors.newCachedThreadPool());
     }
 
     /**
@@ -34,13 +37,13 @@ public class MemoryQueueDelayExecutor implements DelayExecutor {
     }
 
     @Override
-    public void execute(Executor executor, int delayMills) {
-        this.delayQueue.add(new DelayedTask(executor, delayMills));
+    public void execute(Runnable runnable, int delayMills) {
+        this.delayQueue.add(new DelayedTask(runnable, delayMills));
     }
 
     @Override
-    public void execute(Executor executor, LocalDateTime exceptedStartTime) {
-        this.delayQueue.add(new DelayedTask(executor, exceptedStartTime));
+    public void execute(Runnable runnable, LocalDateTime exceptedStartTime) {
+        this.delayQueue.add(new DelayedTask(runnable, exceptedStartTime));
     }
 
     private void startDelayConsumer() {
@@ -60,18 +63,18 @@ public class MemoryQueueDelayExecutor implements DelayExecutor {
 
         private long expectedBeginTime;
 
-        private Executor executor;
+        private Runnable runnable;
 
-        public DelayedTask(Executor executor, int delayMills) {
-            this.init(executor, delayMills + System.currentTimeMillis());
+        public DelayedTask(Runnable runnable, int delayMills) {
+            this.init(runnable, delayMills + System.currentTimeMillis());
         }
 
-        public DelayedTask(Executor executor, LocalDateTime exceptedStartTime) {
-            this.init(executor, LocalDateUtils.toTimestamp(exceptedStartTime));
+        public DelayedTask(Runnable runnable, LocalDateTime exceptedStartTime) {
+            this.init(runnable, LocalDateUtils.toTimestamp(exceptedStartTime));
         }
 
-        private void init(Executor executor, long expectedBeginTime) {
-            this.executor = executor;
+        private void init(Runnable runnable, long expectedBeginTime) {
+            this.runnable = runnable;
             this.expectedBeginTime = expectedBeginTime;
         }
 
@@ -91,7 +94,7 @@ public class MemoryQueueDelayExecutor implements DelayExecutor {
 
         public void execute() {
             try {
-                this.executor.execute();
+                this.runnable.run();
             } catch (Exception e) {
                 log.error("Failed to execute.", e);
             }

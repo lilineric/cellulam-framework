@@ -1,5 +1,6 @@
 package com.cellulam.metadata;
 
+import com.cellulam.core.concurrent.TtlExecutors;
 import com.cellulam.core.factories.PropertiesFactory;
 import com.cellulam.core.utils.IpUtils;
 import com.cellulam.db.conf.DbConfiguration;
@@ -15,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -88,7 +88,7 @@ public class DefaultMetadataContextInitializer implements MetadataContextInitial
 
     private void startScheduleTasks() {
         if (this.properties.getHeartbeatSecond() > 0) {
-            executorService = Executors.newScheduledThreadPool(1);
+            executorService = TtlExecutors.newScheduledThreadPool(1);
             executorService.scheduleAtFixedRate(() -> this.heartbeat(),
                     this.properties.getHeartbeatSecond(),
                     this.properties.getHeartbeatSecond(),
