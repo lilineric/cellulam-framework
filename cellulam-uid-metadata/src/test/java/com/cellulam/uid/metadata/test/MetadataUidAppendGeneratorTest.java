@@ -29,20 +29,24 @@ public class MetadataUidAppendGeneratorTest {
         UidAppendGenerator UidAppendGenerator = new MetadataAppendUidGenerator();
         long id1 = UidAppendGenerator.nextId();
         long id2 = UidAppendGenerator.nextId(id1);
+        long id3 = UidAppendGenerator.nextId(id2);
         Assert.assertNotEquals(id1, id2);
+        Assert.assertNotEquals(id2, id3);
         System.out.println(id1);
         System.out.println(id2);
-        Assert.assertEquals(id1 % 1000, id2 % 1000);
+        System.out.println(id3);
+        Assert.assertEquals(id1 % 100, id2 % 100);
+        Assert.assertEquals(id1 % 100, id3 % 100);
     }
 
     @Test
     public void testNextId2() {
-        UidAppendGenerator UidAppendGenerator = new MetadataAppendUidGenerator(System.currentTimeMillis() / 1000, 2);
+        UidAppendGenerator UidAppendGenerator = new MetadataAppendUidGenerator(System.currentTimeMillis() / 1000, 1);
         long id1 = UidAppendGenerator.nextId();
         long id2 = UidAppendGenerator.nextId(id1);
         System.out.println(id1);
         System.out.println(id2);
-        Assert.assertEquals(id1 % 100, id2 % 100);
+        Assert.assertEquals(id1 % 10, id2 % 10);
     }
 
     @Test
@@ -54,7 +58,7 @@ public class MetadataUidAppendGeneratorTest {
         Assert.assertNotEquals(id1, id2);
         System.out.println(id1);
         System.out.println(id2);
-        Assert.assertEquals(id1 % 1000, id2 % 1000);
+        Assert.assertEquals(id1 % 100, id2 % 100);
     }
 
     @Test(expected = UidGenerateException.class)
@@ -82,6 +86,7 @@ public class MetadataUidAppendGeneratorTest {
 
     @Test
     public void concurrentTest() throws InterruptedException {
+//        int testNum = 100;
         int testNum = 100;
         int threadCount = 10;
 
@@ -91,11 +96,12 @@ public class MetadataUidAppendGeneratorTest {
 
         ExecutorService pool = Executors.newFixedThreadPool(threadCount);
 
-        final UidAppendGenerator UidAppendGenerator = new MetadataAppendUidGenerator();
+        final UidAppendGenerator uidAppendGenerator = new MetadataAppendUidGenerator();
+        long baseId = uidAppendGenerator.nextId();
         long start = System.currentTimeMillis();
         for (int i = 0; i < testNum; i++) {
             pool.execute(() -> {
-                ids.add(UidAppendGenerator.nextId());
+                ids.add(uidAppendGenerator.nextId(baseId));
                 countDownLatch.countDown();
             });
         }
