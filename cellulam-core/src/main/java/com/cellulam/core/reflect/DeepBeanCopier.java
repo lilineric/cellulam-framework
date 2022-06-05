@@ -18,6 +18,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * Deep copy
  * the target class must have a no args constructor
+ * @author eric.li
  */
 @Slf4j
 public class DeepBeanCopier {

@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Memory-based delay queue
+ * @author eric.li
  */
 @Slf4j
 public class MemoryQueueDelayExecutor implements DelayExecutor {

@@ -2,7 +2,8 @@ package com.cellulam.core.enums;
 
 
 /**
- * 带code的描述
+ * enum with code
+ * @author eric.li
  */
 public interface CodeFeature {
 

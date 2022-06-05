@@ -19,6 +19,7 @@ import java.util.Map;
  * If the passed object is of reference type, then it will be shared multiple threads.
  * Therefore the value of the TransmittableThreadLocal must be deep-copied when passed, passing a copy of it instead of reference.
  *
+ * @author eric.li
  */
 @Slf4j
 public final class RuntimeContext {

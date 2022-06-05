@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  *  +------+----------------------+----------------+-----------+
  *    1bit          41bits       10bits       12bits
  *  }</pre>
+ * @author eric.li
  */
 public class SnowflakeGenerator implements UidGenerator {
 

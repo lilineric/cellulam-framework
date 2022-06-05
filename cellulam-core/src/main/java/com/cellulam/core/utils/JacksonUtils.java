@@ -21,6 +21,7 @@ import java.util.Map;
 
 /**
  * Jackson-Json Util
+ * @author eric.li
  */
 public abstract class JacksonUtils {
 

@@ -14,6 +14,7 @@ import java.util.Date;
  * <p>
  * GMT: 格林威治平均时, 中国位于东8区，因此时间是GMT+8 <br>
  * 但是, 必须使用 GMT-8, GMT-8事实上是GMT+8区, Etc/GMT-8
+ * @author eric.li
  */
 public abstract class LocalDateUtils {
 

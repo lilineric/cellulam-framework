@@ -6,6 +6,7 @@ import groovy.lang.GroovyObject;
 
 /**
  * cached the class
+ * @author eric.li
  */
 public class GroovyScriptUtils {
     /**

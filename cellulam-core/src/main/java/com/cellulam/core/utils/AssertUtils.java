@@ -8,10 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Collection;
 import java.util.Map;
 
-/**
- * 断言失败抛出<code>IllegalArgumentException</code>而非Error
- * 非测试使用
- */
 public abstract class AssertUtils {
 
     public static void isTrue(boolean expression, String message) {

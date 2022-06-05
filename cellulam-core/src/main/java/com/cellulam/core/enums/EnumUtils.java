@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * 枚举帮助类
- */
 public final class EnumUtils {
 
     public static final Map<Class<? extends CodeFeature>, Map<Integer, ? extends CodeFeature>> map = Maps.newHashMap();

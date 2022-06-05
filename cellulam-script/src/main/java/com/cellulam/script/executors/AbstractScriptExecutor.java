@@ -9,6 +9,7 @@ import javax.script.ScriptEngineManager;
 
 /**
  * Cached functions
+ * @author eric.li
  */
 @Slf4j
 public abstract class AbstractScriptExecutor implements ScriptExecutor {

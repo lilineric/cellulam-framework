@@ -21,6 +21,7 @@ import com.cellulam.uid.snowflake.SnowflakeGenerator;
  * 39bits timestamp. Time unit is milliseconds, could support about 17 years.
  * 12bits worker id. Maximum value will be 4096. {@link com.cellulam.metadata.MetadataContext} will generate workerId for each instance.
  * 12bits sequence. Maximum value will be 4096. Represents sequence within the one mills, maximum is 4096 per mills.
+ * @author eric.li
  */
 public class MetadataUidGenerator extends SnowflakeGenerator implements UidGenerator {
     public static final long TIMESTAMP_BIT = 39;

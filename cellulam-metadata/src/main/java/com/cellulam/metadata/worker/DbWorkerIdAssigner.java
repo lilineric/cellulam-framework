@@ -10,7 +10,8 @@ import com.cellulam.metadata.dal.po.WorkerNodeDo;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 通过数据库分配workerId
+ * assign workerId via database
+ * @author eric.li
  */
 @Slf4j
 public class DbWorkerIdAssigner implements WorkerIdAssigner {

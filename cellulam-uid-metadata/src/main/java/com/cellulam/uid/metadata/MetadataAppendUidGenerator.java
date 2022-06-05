@@ -39,6 +39,7 @@ import com.cellulam.uid.snowflake.TimestampUnit;
  *     long payId = payIdGenerator.nextId(orderId);
  *     }</pre>
  * </p>
+ * @author eric.li
  */
 public class MetadataAppendUidGenerator extends SnowflakeGenerator implements UidAppendGenerator {
     public static final long TIMESTAMP_BIT = 29;
