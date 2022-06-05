@@ -14,6 +14,11 @@ import java.util.Map;
 
 /**
  * It's a runtime context for each thread
+ * In order to automatically pass contexts across threads, {@link TransmittableThreadLocal} is used to store the value of the context.
+ * {@link TransmittableThreadLocal} inherits from {@link InheritableThreadLocal}.
+ * If the passed object is of reference type, then it will be shared multiple threads.
+ * Therefore the value of the TransmittableThreadLocal must be deep-copied when passed, passing a copy of it instead of reference.
+ *
  */
 @Slf4j
 public final class RuntimeContext {
