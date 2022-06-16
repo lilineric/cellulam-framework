@@ -15,6 +15,6 @@ See more: [transmittable-thread-local](https://github.com/alibaba/transmittable-
 - [ ] Distributed Transaction
     - [ ] TCC
     - [ ] Saga
-    - [ ] [Transaction Table](https://github.com/lilineric/trans-msg-db)
+    - [x] [Transaction Table](https://github.com/lilineric/trans-msg-db)
     - [ ] Transaction Message
 
